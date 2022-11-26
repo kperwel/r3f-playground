@@ -14,9 +14,11 @@ interface RoomProps extends PropsWithChildren {
   width: number;
   length: number;
   height: number;
+  wallTexture: string;
+  floorTexture: string;
 }
 
-function Room({ children, width, length, height }: RoomProps) {
+function Room({ children, width, length, height, wallTexture, floorTexture }: RoomProps) {
   const corners = createCorners(width, length);
   const light = useRef<null | PointLight>(null);
 
@@ -38,9 +40,9 @@ function Room({ children, width, length, height }: RoomProps) {
         color="white"
         position={[0, 10, 0]}
       />
-      <Floor from={corners[0]} to={corners[2]} />
-      <Wall from={corners[0]} to={corners[1]} height={height} thickness={0.2} />
-      <Wall from={corners[1]} to={corners[2]} height={height} thickness={0.2} />
+      <Floor texture={floorTexture} from={corners[0]} to={corners[2]} />
+      <Wall texture={wallTexture} from={corners[0]} to={corners[1]} height={height} thickness={0.2} />
+      <Wall texture={wallTexture} from={corners[1]} to={corners[2]} height={height} thickness={0.2} />
       <group position={[0, 0, 0]}>{children}</group>
     </>
   );

@@ -8,12 +8,11 @@ interface WallProps {
   to: Vector3;
   height: number;
   thickness: number;
+  texture: string;
 }
 
-const textures = ["/wall2/wall_basecolor.jpg"];
-
-function Wall({ from, to, height, thickness }: WallProps): ReactElement {
-  const [diffuse] = useTexture(textures);
+function Wall({ from, to, height, thickness, texture }: WallProps): ReactElement {
+  const diffuse = useTexture(texture);
 
   const quaternion = useMemo(() => {
     const direction = to.clone().sub(from).normalize();

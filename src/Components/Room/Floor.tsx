@@ -6,6 +6,7 @@ import { Vector3, Vector3Tuple } from "three";
 interface FloorProps {
   from: Vector3;
   to: Vector3;
+  texture: string;
 }
 
 const getRectangle = (p1: Vector3, p2: Vector3) => {
@@ -20,11 +21,10 @@ const getRectangle = (p1: Vector3, p2: Vector3) => {
 };
 
 const rotation: Euler = [-Math.PI / 2, 0, 0];
-const textures = ["/carpet/carpet-diffuse.jpg"];
 
-function Floor({ from, to }: FloorProps): ReactElement {
+function Floor({ from, to, texture }: FloorProps): ReactElement {
   const { left, bottom, width, height } = getRectangle(from, to);
-  const [diffuse] = useTexture(textures);
+  const diffuse = useTexture(texture);
 
   const originShift: Vector3Tuple = [left + width / 2, 0, bottom + height / 2];
 
