@@ -1,6 +1,6 @@
 import { useTexture } from "@react-three/drei";
 import { Euler } from "@react-three/fiber";
-import { ReactElement, useEffect, useRef } from "react";
+import { ReactElement, useEffect, useMemo, useRef } from "react";
 import { BoxGeometry, Quaternion, Vector3 } from "three";
 
 interface WallProps {
@@ -15,11 +15,10 @@ const textures = ["/wall2/wall_basecolor.jpg"];
 function Wall({ from, to, height, thickness }: WallProps): ReactElement {
   const [diffuse] = useTexture(textures);
 
-  const direction = to.clone().sub(from).normalize();
-  const quaternion = new Quaternion().setFromUnitVectors(
-    new Vector3(1, 0, 0),
-    direction
-  );
+  const quaternion = useMemo(() => {
+    const direction = to.clone().sub(from).normalize();
+    return new Quaternion().setFromUnitVectors(new Vector3(1, 0, 0), direction);
+  }, [to, from]);
 
   return (
     <group quaternion={quaternion} position={from}>
