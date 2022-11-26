@@ -1,25 +1,24 @@
-import { Mesh, Vector3 } from "three";
+import { Vector3 } from "three";
 import Card from "./Card";
 
-import { useSpring, animated } from "@react-spring/three";
-import { useRef, useState } from "react";
+import { animated as a } from "@react-spring/three";
+import { useState } from "react";
 import FakeCards from "./FakeCards";
-
-const CARDS = ["A", "B", "C", "D", "E"];
+import useCardTransition from "./useCardTransition";
+import { useCards } from "../../Store/useCards";
 
 function Deck() {
-  const [num, setNum] = useState(0);
+  const [cards, drawCard] = useCards();
+  const transitions = useCardTransition(cards);
 
   return (
-    <group
-      castShadow
-      position={new Vector3(0, 0, 0)}
-      onClick={() => setNum(num + 1)}
-    >
-      {new Array(num).fill("").map((_, key) => (
-        <Card shown={true} key={key} />
-      ))}
+    <group castShadow position={new Vector3(0, 0, 0)} onClick={drawCard}>
       <FakeCards />
+      {transitions((spring, card) => (
+        <a.group {...spring} key={card}>
+          <Card />
+        </a.group>
+      ))}
     </group>
   );
 }

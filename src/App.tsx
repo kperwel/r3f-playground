@@ -1,7 +1,7 @@
 import "./App.css";
 
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, useGLTF } from "@react-three/drei";
 import Room from "./Components/Room/Room";
 import Deck from "./Components/Deck";
 import Table from "./Components/Table";
@@ -12,7 +12,7 @@ function App() {
     <Canvas shadows>
       <color attach="background" args={['#666']} />
       <ambientLight />
-      
+
       <Room width={4} length={4} height={3}>
         <Table position={new Vector3()}>
           <Deck />

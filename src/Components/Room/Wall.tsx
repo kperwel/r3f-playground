@@ -10,25 +10,10 @@ interface WallProps {
   thickness: number;
 }
 
-const textures = [
-  "/wall2/wall_basecolor.jpg",
-  "/wall2/wall_metallic.jpg",
-  "/wall2/wall_normal.jpg",
-  "/wall2/wall_roughness.jpg",
-];
+const textures = ["/wall2/wall_basecolor.jpg"];
 
 function Wall({ from, to, height, thickness }: WallProps): ReactElement {
-  const geometry = useRef<BoxGeometry | null>(null);
-
-  const [diffuse, mettalic, normal, roughness] = useTexture(textures);
-
-  useEffect(() => {
-    if (geometry.current === null) {
-      return;
-    }
-    geometry.current.center();
-    geometry.current.translate(from.distanceTo(to) / 2, height / 2, 0);
-  }, [geometry, from, to, height]);
+  const [diffuse] = useTexture(textures);
 
   const direction = to.clone().sub(from).normalize();
   const quaternion = new Quaternion().setFromUnitVectors(
@@ -37,18 +22,12 @@ function Wall({ from, to, height, thickness }: WallProps): ReactElement {
   );
 
   return (
-    <mesh quaternion={quaternion} position={from}>
-      <boxGeometry
-        ref={geometry}
-        args={[from.distanceTo(to), height, thickness]}
-      />
-      <meshStandardMaterial
-        normalMap={normal}
-        map={diffuse}
-        metalnessMap={mettalic}
-        roughnessMap={roughness}
-      />
-    </mesh>
+    <group quaternion={quaternion} position={from}>
+      <mesh position={[from.distanceTo(to) / 2, height / 2, 0]}>
+        <boxGeometry args={[from.distanceTo(to), height, thickness]} />
+        <meshStandardMaterial map={diffuse} />
+      </mesh>
+    </group>
   );
 }
 
