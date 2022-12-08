@@ -26,14 +26,14 @@ body,
   border: 0;
   font-size: 20px;
   display: block;
-  background-color: #999;
+  background-color: rgb(13, 170, 105);
   border-radius: 50%;
   aspect-ratio: 1;
   user-select: none;
   transition: transform 50ms ease-in-out;
   color: #fff;
   font-weight: bold;
-  box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff;
+  box-shadow: 0px 3px 8px rgb(14, 161, 85), inset 0px 2px 3px rgb(140, 255, 114);
 }
 
 @media screen and (min-width: 1025px) {

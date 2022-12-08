@@ -17,7 +17,7 @@ const useCards = () => {
     }
   }, [setStore, cards]);
 
-  return [cards, drawCard];
+  return [cards, drawCard] as const;
 };
 
 export { Provider, useCards };

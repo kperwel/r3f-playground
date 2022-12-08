@@ -4,7 +4,7 @@ const DrawMenu = () => {
   const [cards, drawCard] = useCards();
   return (
     <div className="menu">
-      <button className="draw-button" onClick={drawCard}>
+      <button className="draw-button" onClick={() => drawCard()}>
         {cards.length < 3 ? "DRAW" : "ROUND"}
       </button>
     </div>
