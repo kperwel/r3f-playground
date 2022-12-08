@@ -1,19 +1,23 @@
 import { useTransition } from "@react-spring/three";
 import { Vector3Tuple, Vector3 } from "three";
-import { Euler } from "@react-three/fiber";
+import { Euler, useThree } from "@react-three/fiber";
+import { Card } from "../../Store/card";
 
-export default function useCardTransition(cards: Array<number>) {
+export default function useCardTransition(cards: Array<Card>) {
+  const camera = useThree((state) => state.camera)
   return useTransition(cards, {
-    keys: (item) => item,
-    sort: (_item, key) => key,
     from: {
       position: [0, 0, 0] as Vector3Tuple,
       rotation: [0, 0, 0] as any as Vector3,
     },
-    enter: (_, index) => async (next, cancel) => {
+    keys: item => item.id, 
+    enter: (item) => async (next) => {
+      const index = cards.indexOf(item);
+      const reversed = cards.length - index;
+
       await next({
         position: [0.3, 0.5, 0] as Vector3Tuple,
-        rotation: [0, 0, Math.PI - Math.PI / 4] as Euler,
+        rotation: [0, -camera.rotation.x - (Math.PI / 2), Math.PI - Math.PI / 4] as Euler,
       });
       await next({
         position: [
@@ -24,13 +28,15 @@ export default function useCardTransition(cards: Array<number>) {
         rotation: [0, 0, Math.PI] as Euler,
       });
     },
-    leave: () => async (next, cancel) => {
+    leave: (item) => async (next) => {
+      const index = cards.indexOf(item);
+      const reversed = cards.length - index;
       await next({
-        position: [0.5, 0.001, 0] as Vector3Tuple,
+        position: [0.5, 0.01 * reversed, 0] as Vector3Tuple,
         rotation: [0, 0, 0] as Euler,
       });
       await next({
-        position: [0, 0, 0] as Vector3Tuple,
+        position: [0, 0.001 * reversed, 0] as Vector3Tuple,
         rotation: [0, 0, 0] as Euler,
       });
     },

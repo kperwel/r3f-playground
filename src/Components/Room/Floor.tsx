@@ -1,7 +1,7 @@
 import { useTexture } from "@react-three/drei";
 import { Euler } from "@react-three/fiber";
 import { ReactElement } from "react";
-import { Vector3, Vector3Tuple } from "three";
+import { Texture, Vector3, Vector3Tuple, RepeatWrapping, Vector2 } from "three";
 
 interface FloorProps {
   from: Vector3;
@@ -25,13 +25,12 @@ const rotation: Euler = [-Math.PI / 2, 0, 0];
 function Floor({ from, to, texture }: FloorProps): ReactElement {
   const { left, bottom, width, height } = getRectangle(from, to);
   const diffuse = useTexture(texture);
-
   const originShift: Vector3Tuple = [left + width / 2, 0, bottom + height / 2];
 
   return (
-    <mesh rotation={rotation} position={originShift}>
+    <mesh rotation={rotation} receiveShadow position={originShift}>
       <planeGeometry args={[width, height]} />
-      <meshPhongMaterial map={diffuse} />
+      <meshStandardMaterial map={diffuse} />
     </mesh>
   );
 }

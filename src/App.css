@@ -6,3 +6,53 @@ body,
   height: 100%;
   margin: 0;
 }
+
+#canvas-container {
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  width: 10%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.draw-button {
+  width: 100%;
+  min-width: 80px;
+  border: 0;
+  font-size: 20px;
+  display: block;
+  background-color: #999;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  user-select: none;
+  transition: transform 50ms ease-in-out;
+  color: #fff;
+  font-weight: bold;
+  box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff;
+}
+
+@media screen and (min-width: 1025px) {
+  .draw-button {
+    font-size: 30px;
+  }
+}
+
+.draw-button:hover {
+  transform: scale(1.05);
+}
+.draw-button:active {
+  transform: scale(0.9);
+}
+
+.card-name {
+  text-align: center;
+  user-select: none;
+  font-size: 18px;
+  color: #000;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}

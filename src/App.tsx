@@ -6,36 +6,45 @@ import Room from "./Components/Room/Room";
 import Deck from "./Components/Deck";
 import Table from "./Components/Table";
 import { Vector3 } from "three";
+import { Suspense } from "react";
+
+const azimuthAngle = 2 * (Math.PI / 4);
+const azimuthMovementLimit = Math.PI / 4;
+
+const polarAngle = Math.PI / 4;
+const polarMovementLimit = Math.PI / 8;
 
 function App() {
   return (
-    <Canvas shadows>
-      <color attach="background" args={["#666"]} />
-      <ambientLight />
+    <Suspense fallback={<span>loading...</span>}>
+      <Canvas shadows>
+        <Room
+          width={6}
+          length={6}
+          height={3}
+          floorTexture="/floor.png"
+          wallTexture="/wall.png"
+        >
+          <Table position={new Vector3(0, 0, 0)}>
+            <Deck />
+          </Table>
+        </Room>
 
-      <Room
-        width={4}
-        length={4}
-        height={3}
-        floorTexture="/carpet/carpet-diffuse.jpg"
-        wallTexture="/wall2/wall_basecolor.jpg"
-      >
-        <Table position={new Vector3()}>
-          <Deck />
-        </Table>
-      </Room>
-
-      <OrbitControls
-        enablePan={false}
-        enableZoom={true}
-        minPolarAngle={Math.PI / 4}
-        maxPolarAngle={Math.PI / 4}
-        minAzimuthAngle={Math.PI / 2}
-        maxAzimuthAngle={2 * (Math.PI / 2)}
-      />
-      <axesHelper />
-      <gridHelper />
-    </Canvas>
+        <OrbitControls
+          target={[0, 0.7, 0]}
+          enablePan={false}
+          enableZoom={true}
+          maxDistance={3}
+          minDistance={2}
+          minPolarAngle={polarAngle - polarMovementLimit / 2}
+          maxPolarAngle={polarAngle + polarMovementLimit / 2}
+          minAzimuthAngle={azimuthAngle - azimuthMovementLimit / 2}
+          maxAzimuthAngle={azimuthAngle + azimuthMovementLimit / 2}
+        />
+        <axesHelper />
+        <gridHelper />
+      </Canvas>
+    </Suspense>
   );
 }
 

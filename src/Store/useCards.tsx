@@ -1,7 +1,8 @@
 import { useCallback, useMemo } from "react";
 import createFastContext from "./createStore";
+import { Card, createCard } from "./card";
 
-const { Provider, useStore } = createFastContext<{ cards: Array<number> }>({
+const { Provider, useStore } = createFastContext<{ cards: Array<Card> }>({
   cards: [],
 });
 
@@ -10,13 +11,13 @@ const useCards = () => {
 
   const drawCard = useCallback(() => {
     if (cards.length < 3) {
-      setStore({ cards: [...cards, Math.random()] });
+      setStore({ cards: [...cards, createCard()] });
     } else {
       setStore({ cards: [] });
     }
   }, [setStore, cards]);
 
-  return useMemo(() => [cards, drawCard] as const, [cards, drawCard]);
+  return [cards, drawCard];
 };
 
 export { Provider, useCards };
